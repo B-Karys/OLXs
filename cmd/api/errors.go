@@ -13,6 +13,17 @@ func (app *application) logError(r *http.Request, err error) {
 	})
 }
 
+func (app *application) invalidAuthenticationTokenResponse(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("WWW-Authenticate", "Bearer")
+	message := "invalid or missing authentication token"
+	app.errorResponse(w, r, http.StatusUnauthorized, message)
+}
+
+func (app *application) invalidCredentialsResponse(w http.ResponseWriter, r *http.Request) {
+	message := "invalid authentication credentials"
+	app.errorResponse(w, r, http.StatusUnauthorized, message)
+}
+
 // The errorResponse() method is a generic helper for sending JSON-formatted error
 // messages to the client with a given status code. CHANGE "interface" to "any" if go version is 1.18 or newer
 func (app *application) errorResponse(w http.ResponseWriter, r *http.Request, status int, message interface{}) {
