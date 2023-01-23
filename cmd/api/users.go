@@ -103,6 +103,7 @@ func (app *application) activateUserHandler(w http.ResponseWriter, r *http.Reque
 	// Parse the plaintext activation token from the request body.
 	var input struct {
 		TokenPlaintext string `json:"token"`
+		NewPassword    string `json:"newPassword"`
 	}
 
 	err := app.readJSON(w, r, &input)
@@ -110,6 +111,7 @@ func (app *application) activateUserHandler(w http.ResponseWriter, r *http.Reque
 		app.badRequestResponse(w, r, err)
 		return
 	}
+
 	// Validate the plaintext token provided by the client.
 	v := validator.New()
 	if data.ValidateTokenPlaintext(v, input.TokenPlaintext); !v.Valid() {
@@ -132,6 +134,13 @@ func (app *application) activateUserHandler(w http.ResponseWriter, r *http.Reque
 	}
 	// Update the user's activation status.
 	user.Activated = true
+
+	err = user.Password.Set("newPassword")
+	if err != nil {
+		app.serverErrorResponse(w, r, err)
+		return
+	}
+
 	// Save the updated user record in our database, checking for any edit conflicts in
 	// the same way that we did for our movie records.
 	err = app.models.Users.Update(user)
