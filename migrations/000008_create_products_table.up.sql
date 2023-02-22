@@ -5,4 +5,5 @@ CREATE TABLE IF NOT EXISTS products (
     description text NOT NULL,
     imageURL text,
     seller text NOT NULL
+    categories text[] NOT NULL,
     );

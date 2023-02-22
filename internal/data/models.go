@@ -15,16 +15,18 @@ var (
 // Create a Models struct which wraps the MovieModel
 // kind of enveloping
 type Models struct {
-	Movies MovieModel
-	Users  UserModel
-	Tokens TokenModel // used to generate activation tokens
+	Movies   MovieModel
+	Users    UserModel
+	Tokens   TokenModel // used to generate activation tokens
+	Products ProductModel
 }
 
 // method which returns a Models struct containing the initialized MovieModel.
 func NewModels(db *sql.DB) Models {
 	return Models{
-		Movies: MovieModel{DB: db},
-		Users:  UserModel{DB: db},
-		Tokens: TokenModel{DB: db}, // new TokenModel initilization
+		Movies:   MovieModel{DB: db},
+		Users:    UserModel{DB: db},
+		Tokens:   TokenModel{DB: db}, // new TokenModel initilization
+		Products: ProductModel{DB: db},
 	}
 }
