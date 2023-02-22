@@ -84,14 +84,14 @@ func main() {
 	// Mailtrap settings as the default values. IMPORTANT: If you're following along,
 	// make sure to replace the default values for smtp-username and smtp-password
 	// with your own Mailtrap credentials.
-	flag.StringVar(&cfg.smtp.host, "smtp-host", "smtp-mail.outlook.com", "SMTP host")
-	flag.IntVar(&cfg.smtp.port, "smtp-port", 587, "SMTP port")
+	flag.StringVar(&cfg.smtp.host, "smtp-host", "sandbox.smtp.mailtrap.io", "SMTP host")
+	flag.IntVar(&cfg.smtp.port, "smtp-port", 25, "SMTP port")
 	// use your own credentials here as username and password
 	// $env:SMTPUSERNAME="smtp_server_username_here"
 	// $env:SMTPPASSWORD="smtp_server_username_here"
-	flag.StringVar(&cfg.smtp.username, "smtp-username", "211410@astanait.edu.kz", "SMTP username")
-	flag.StringVar(&cfg.smtp.password, "smtp-password", "Mbt140304beka", "SMTP password")
-	flag.StringVar(&cfg.smtp.sender, "smtp-sender", "Marat Bekarys <211410@astanait.edu.kz>", "SMTP sender")
+	flag.StringVar(&cfg.smtp.username, "smtp-username", "505cf6ebc76e1f", "SMTP username")
+	flag.StringVar(&cfg.smtp.password, "smtp-password", "839286b88adcfb", "SMTP password")
+	flag.StringVar(&cfg.smtp.sender, "smtp-sender", "Test <no-reply@test.com>", "SMTP sender")
 
 	flag.Parse()
 	// Using new json oriented logger

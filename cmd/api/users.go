@@ -103,7 +103,6 @@ func (app *application) activateUserHandler(w http.ResponseWriter, r *http.Reque
 	// Parse the plaintext activation token from the request body.
 	var input struct {
 		TokenPlaintext string `json:"token"`
-		NewPassword    string `json:"newPassword"`
 	}
 
 	err := app.readJSON(w, r, &input)
@@ -134,13 +133,6 @@ func (app *application) activateUserHandler(w http.ResponseWriter, r *http.Reque
 	}
 	// Update the user's activation status.
 	user.Activated = true
-
-	err = user.Password.Set("newPassword")
-	if err != nil {
-		app.serverErrorResponse(w, r, err)
-		return
-	}
-
 	// Save the updated user record in our database, checking for any edit conflicts in
 	// the same way that we did for our movie records.
 	err = app.models.Users.Update(user)
@@ -161,6 +153,54 @@ func (app *application) activateUserHandler(w http.ResponseWriter, r *http.Reque
 		return
 	}
 	// Send the updated user details to the client in a JSON response.
+	err = app.writeJSON(w, http.StatusOK, envelope{"user": user}, nil)
+	if err != nil {
+		app.serverErrorResponse(w, r, err)
+	}
+}
+
+func (app *application) deleteUserHandler(w http.ResponseWriter, r *http.Request) {
+	id, err := app.readIDParam(r)
+	if err != nil {
+		app.notFoundResponse(w, r)
+		return
+	}
+
+	err = app.models.Users.Delete(id)
+	if err != nil {
+		switch {
+		case errors.Is(err, data.ErrRecordNotFound):
+			app.notFoundResponse(w, r)
+		default:
+			app.serverErrorResponse(w, r, err)
+		}
+		return
+	}
+
+	err = app.writeJSON(w, http.StatusOK, envelope{"message": "User successfully deleted"}, nil)
+	if err != nil {
+		app.serverErrorResponse(w, r, err)
+	}
+}
+
+func (app *application) showUserHandler(w http.ResponseWriter, r *http.Request) {
+	id, err := app.readIDParam(r)
+	if err != nil {
+		app.notFoundResponse(w, r)
+	}
+
+	user, err := app.models.Users.Get(id)
+	if err != nil {
+		switch {
+		case errors.Is(err, data.ErrRecordNotFound):
+			app.notFoundResponse(w, r)
+		default:
+			app.serverErrorResponse(w, r, err)
+		}
+		return
+	}
+	// Encode the struct to JSON and send it as the HTTP response.
+	// using envelope
 	err = app.writeJSON(w, http.StatusOK, envelope{"user": user}, nil)
 	if err != nil {
 		app.serverErrorResponse(w, r, err)

@@ -49,6 +49,7 @@ func (app *application) createMovieHandler(w http.ResponseWriter, r *http.Reques
 		app.serverErrorResponse(w, r, err)
 	}
 	// // Dump the contents of the input struct in a HTTP response.
+	// // Dump the contents of the input struct in a HTTP response.
 	// fmt.Fprintf(w, "%+v\n", input) //+v here is adding the field name of a value // https://pkg.go.dev/fmt
 }
 
@@ -101,7 +102,6 @@ func (app *application) deleteMovieHandler(w http.ResponseWriter, r *http.Reques
 	if err != nil {
 		app.serverErrorResponse(w, r, err)
 	}
-
 }
 
 // TO-DO: Update existing movie

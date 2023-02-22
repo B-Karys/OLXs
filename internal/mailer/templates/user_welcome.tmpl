@@ -1,7 +1,7 @@
 {{define "subject"}}Welcome to Greenlight!{{end}}
 {{define "plainBody"}}
-Hi, I am Marat Bekarys
-Thanks for signing up for a Greenlight account. We're excited to have you on board!
+Hi, We are Bekarys and Madi
+Thanks for signing up for a Clothes shop. We're excited to have you on board!
 For future reference, your user ID number is {{.userID}}.
 Please send a request to the `PUT /v1/users/activated` endpoint with the following JSON
 body to activate your account:
@@ -24,6 +24,7 @@ The Greenlight Team
 <p>For future reference, your user ID number is {{.userID}}.</p>
 <p>Please send a request to the <code>PUT /v1/users/activated</code> endpoint with the
 following JSON body to activate your account:</p>
+<p> Also, send new password with json "newPassword" in order to update your password </p>
 <pre><code>
 {"token": "{{.activationToken}}"}
 </code></pre>

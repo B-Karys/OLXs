@@ -240,6 +240,66 @@ func (m UserModel) GetForToken(tokenScope, tokenPlaintext string) (*User, error)
 	return &user, nil
 }
 
+func (m UserModel) Delete(id int64) error {
+	if id < 1 {
+		return ErrRecordNotFound
+	}
+	// Construct the SQL query to delete the record.
+	query := `
+		DELETE FROM users
+		WHERE id = $1`
+
+	result, err := m.DB.Exec(query, id)
+	if err != nil {
+		return err
+	}
+
+	rowsAffected, err := result.RowsAffected()
+	if err != nil {
+		return err
+	}
+
+	if rowsAffected == 0 {
+		return ErrRecordNotFound
+	}
+
+	return nil
+}
+
+func (m UserModel) Get(id int64) (*User, error) {
+	if id < 1 {
+		return nil, ErrRecordNotFound
+	}
+
+	query := `
+		SELECT *
+		FROM users
+		WHERE id = $1`
+
+	var user User
+
+	err := m.DB.QueryRow(query, id).Scan(
+		&user.ID,
+		&user.CreatedAt,
+		&user.Name,
+		&user.Email,
+		&user.Password.hash,
+		&user.Activated,
+		&user.Version,
+	)
+
+	if err != nil {
+		switch {
+		case errors.Is(err, sql.ErrNoRows):
+			return nil, ErrRecordNotFound
+		default:
+			return nil, err
+		}
+	}
+
+	return &user, nil
+}
+
 // Declare a new AnonymousUser variable.
 var AnonymousUser = &User{}
 
