@@ -13,6 +13,8 @@ func (app *application) registerUserHandler(w http.ResponseWriter, r *http.Reque
 	// Create an anonymous struct to hold the expected data from the request body.
 	var input struct {
 		Name     string `json:"name"`
+		Surname  string `json:"surname"`
+		Phone    string `json:"phone"`
 		Email    string `json:"email"`
 		Password string `json:"password"`
 	}
@@ -28,6 +30,8 @@ func (app *application) registerUserHandler(w http.ResponseWriter, r *http.Reque
 	// explicitly helps to make our intentions clear to anyone reading the code.
 	user := &data.User{
 		Name:      input.Name,
+		Surname:   input.Surname,
+		Phone:     input.Phone,
 		Email:     input.Email,
 		Activated: false,
 	}
@@ -205,4 +209,51 @@ func (app *application) showUserHandler(w http.ResponseWriter, r *http.Request) 
 	if err != nil {
 		app.serverErrorResponse(w, r, err)
 	}
+}
+
+func (app *application) updateUserHandler(w http.ResponseWriter, r *http.Request) {
+	id, err := app.readIDParam(r)
+	if err != nil {
+		app.notFoundResponse(w, r)
+		return
+	}
+
+	user, err := app.models.Users.Get(id)
+	if err != nil {
+		switch {
+		case errors.Is(err, data.ErrRecordNotFound):
+			app.notFoundResponse(w, r)
+		default:
+			app.serverErrorResponse(w, r, err)
+		}
+		return
+	}
+
+	var input struct {
+		Name    string `json:"name"`
+		Surname string `json:"surname"`
+		Phone   string `json:"phone"`
+	}
+
+	err = app.readJSON(w, r, &input)
+	if err != nil {
+		app.serverErrorResponse(w, r, err)
+		return
+	}
+
+	user.Name = input.Name
+	user.Surname = input.Surname
+	user.Phone = input.Phone
+
+	err = app.models.Users.Update(user)
+	if err != nil {
+		app.serverErrorResponse(w, r, err)
+		return
+	}
+
+	err = app.writeJSON(w, http.StatusOK, envelope{"product": user}, nil)
+	if err != nil {
+		app.serverErrorResponse(w, r, err)
+	}
+
 }
