@@ -23,11 +23,11 @@ type ProductModel struct {
 
 func (m ProductModel) Insert(product *Product) error {
 	query := `
-		INSERT INTO products(name, description, imageURL, seller)
-		VALUES ($1, $2, $3, $4)
-		RETURNING id, created_at, version`
+		INSERT INTO products(name, description, imageURL, seller, categories)
+		VALUES ($1, $2, $3, $4, $5)
+		RETURNING id, created_at`
 
-	return m.DB.QueryRow(query, &product.Name, &product.Seller, &product.Description, pq.Array(&product.Categories)).Scan(&product.ID, &product.CreatedAt, &product.Description)
+	return m.DB.QueryRow(query, &product.Name, &product.Description, &product.ImageURL, &product.Seller, pq.Array(&product.Categories)).Scan(&product.ID, &product.CreatedAt)
 }
 
 // method for fetching a specific record from the movies table.
@@ -49,8 +49,8 @@ func (m ProductModel) Get(id int64) (*Product, error) {
 		&product.Name,
 		&product.Description,
 		&product.ImageURL,
-		pq.Array(&product.Categories),
 		&product.Seller,
+		pq.Array(&product.Categories),
 	)
 
 	if err != nil {
@@ -94,9 +94,9 @@ func (m ProductModel) Delete(id int64) error {
 func (m ProductModel) Update(product *Product) error {
 	query := `
 		UPDATE products
-		SET name = $1, description = $2, imageURL = $3, category = $4, 
+		SET name = $1, description = $2, imageurl = $3, categories = $4
 		WHERE id = $5
-		RETURNING version`
+		RETURNING seller`
 
 	args := []interface{}{
 		product.Name,
@@ -106,5 +106,5 @@ func (m ProductModel) Update(product *Product) error {
 		product.ID,
 	}
 
-	return m.DB.QueryRow(query, args...).Scan(&product.ID)
+	return m.DB.QueryRow(query, args...).Scan(&product.Seller)
 }

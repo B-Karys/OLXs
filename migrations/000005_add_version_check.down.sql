@@ -1,1 +1,0 @@
-DROP CONSTRAINT IF EXISTS version_check;
