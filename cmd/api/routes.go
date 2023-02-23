@@ -20,6 +20,7 @@ func (app *application) routes() http.Handler {
 	router.HandlerFunc(http.MethodPut, "/v1/users/activated", app.activateUserHandler)
 	router.HandlerFunc(http.MethodPatch, "/v1/users/:id", app.updateUserHandler)
 	router.HandlerFunc(http.MethodDelete, "/v1/users/:id", app.deleteUserHandler)
+	router.HandlerFunc(http.MethodPatch, "/v1/changeUserPassword", app.changeUserPasswordHandler)
 
 	// product routes here
 	router.HandlerFunc(http.MethodPost, "/v1/product", app.createProductsHandler)

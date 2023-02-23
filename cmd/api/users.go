@@ -257,3 +257,64 @@ func (app *application) updateUserHandler(w http.ResponseWriter, r *http.Request
 	}
 
 }
+
+func (app *application) changeUserPasswordHandler(w http.ResponseWriter, r *http.Request) {
+	var input struct {
+		Email       string `json:"email"`
+		Password    string `json:"password"`
+		NewPassword string `json:"newPassword"`
+	}
+	err := app.readJSON(w, r, &input)
+	if err != nil {
+		app.badRequestResponse(w, r, err)
+		return
+	}
+	// Validate the email and password provided by the client.
+	v := validator.New()
+	data.ValidateEmail(v, input.Email)
+	data.ValidatePasswordPlaintext(v, input.Password)
+	if !v.Valid() {
+		app.failedValidationResponse(w, r, v.Errors)
+		return
+	}
+
+	user, err := app.models.Users.GetByEmail(input.Email)
+	if err != nil {
+		switch {
+		case errors.Is(err, data.ErrRecordNotFound):
+			app.invalidCredentialsResponse(w, r)
+		default:
+			app.serverErrorResponse(w, r, err)
+		}
+		return
+	}
+	passwordChanged := false
+	// Check if the provided password matches the actual password for the user.
+	match, err := user.Password.Matches(input.Password)
+	if err != nil {
+		app.serverErrorResponse(w, r, err)
+		return
+	}
+	if match == true {
+		err := user.Password.Set(input.NewPassword)
+		if err != nil {
+			return
+		}
+		err = app.models.Users.Update(user)
+		if err != nil {
+			return
+		}
+		passwordChanged = true
+	}
+	// If the passwords don't match, then we call the app.invalidCredentialsResponse()
+	// helper again and return.
+	if !match {
+		app.invalidCredentialsResponse(w, r)
+		return
+	}
+
+	err = app.writeJSON(w, http.StatusCreated, envelope{"password was changed": passwordChanged}, nil)
+	if err != nil {
+		app.serverErrorResponse(w, r, err)
+	}
+}
