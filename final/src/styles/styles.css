@@ -1,0 +1,420 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+body, ul    {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body    {
+    background-color: #f2f4f5;
+    font-family: 'Roboto', sans-serif;
+}
+
+nav {
+    width: 100%;
+    background-color: #002f34;
+    position: fixed;
+}
+
+.container  {
+    width: 70vw;
+    margin: 0 auto;
+}
+
+.navbar-wrapper {
+    height: 70px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo-block {
+    font-family: 'Roboto', sans-serif;
+    color: #23e5db;
+    font-weight: bolder;
+    font-size: 30px;
+    margin-left: 10px;
+}
+
+.navigation-list    {
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    font-family: 'Roboto', sans-serif;
+    width: 300px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navigation-list li     {
+    list-style: none;
+}
+
+#navigation-post-btn    {
+    color: #002f34;
+    background-color: white;
+    width: 140px;
+    height: 45px;
+    border: none;
+    border-radius: 5px;
+}
+
+.search-product-wrapper     {
+    height: 80px;
+    display: flex;
+    justify-content: space-between;
+    border-radius: 5px;
+    padding-top: 100px;
+}
+
+.search-product-input-wrapper   {
+    width: 90%;
+}
+
+.search-product-button-wrapper  {
+    width: 10%;
+    height: 100%;
+    background-color: #002f34;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#search-product-input, #delete-product-input   {
+    width: 100%;
+    height: 98%;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    font-weight: lighter;
+    font-family: 'Roboto', sans-serif;
+    padding-left: 15px;
+}
+
+#search-product-button, #show-all-products-button  {
+    width: 100%;
+    height: 100%;
+    background-color: #002f34;
+    text-align: center;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    font-family: 'Roboto', sans-serif;
+    border: none;
+}
+
+.post-page-wrapper  {
+    margin-bottom: 100px;
+}
+
+.post-page-wrapper, .post-page-products-block  {
+    margin-top: 30px;
+}
+
+.post-page-products-block   {
+    height: 80vh;
+    overflow-y: scroll;
+}
+
+.post-page-title    {
+    font-size: 24px;
+    font-weight: bolder;
+    font-family: 'Roboto', sans-serif;
+}
+
+.post-page-products-list li     {
+    list-style: none;
+    margin-top: 10px;
+}
+
+.single-product-wrapper {
+    display: flex;
+    justify-content: space-between;
+    background-color: white;
+}
+
+.product-info-block     {
+    width: 100%;
+}
+
+.product-info-first-part-wrapper, .product-info-second-part-wrapper    {
+    display: flex;
+    justify-content: space-between;
+    margin-left: 10px;
+}
+
+.product-info-first-part-wrapper    {
+    margin-top: 10px;
+    font-size: 20px;
+    font-weight: lighter;
+    font-family: 'Roboto', sans-serif;
+}
+
+.product-info-second-part-wrapper   {
+    margin-top: 110px;
+    font-size: 12px;
+    font-weight: lighter;
+    font-family: 'Roboto', sans-serif;
+}
+
+.prouct-img {
+    width: 216px;
+    height: 162px;
+}
+
+.product-info-price     {
+    margin-right: 10px;
+}
+
+footer  {
+    border-top: 1px solid #9baeb0;
+}
+
+.footer-wrapper     {
+    padding-top: 60px;
+    padding-bottom: 90px;
+}
+
+.footer-wrapper li      {
+    list-style: none;
+}
+
+.footer-first-part-wrapper      {
+    display: flex;
+    justify-content: flex-start;
+    color: #0d393e;
+    font-size: 16px;
+    font-weight: 600;
+    font-family: 'Roboto', sans-serif;
+}
+
+.footer-first-part-wrapper li   {
+    margin-top: 10px;
+}
+
+.footer-info-second-wrapper     {
+    margin-left: 80px;
+    color: #0d393e;
+    font-size: 16px;
+    font-weight:600;
+    font-family: 'Roboto', sans-serif;
+}
+
+.footer-info-third-wrapper      {
+    margin-left: 100px;
+}
+
+.footer-info-third-list     {
+    display: flex;
+}
+
+.footer-info-third-list li      {
+    margin-left: 10px;
+}
+
+.footer-second-part-wrapper     {
+    margin-top: 30px;
+}
+
+.footer-info-fourth-list     {
+    display: flex;
+}
+
+.footer-info-fourth-list li      {
+    margin-left: 10px;
+}
+.footer-info-fourth-list :nth-child(1)  {
+    margin: 0;
+}
+
+#get-on-play-market-btn     {
+    background-image: url(/src/img/footer/get-it-on-google-play.svg);
+}
+#get-on-app-store-btn   {
+    background-image: url(/src/img/footer/available-on-the-app-store.svg);
+}
+#get-on-play-market-btn, #get-on-app-store-btn      {
+    border: none;
+    width: 150px;
+    height: 50px;
+    background-size: cover;
+}
+
+.authorization-container    {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    z-index: 9;
+    background-color: #3a77ff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.authorization-body     {
+    background-color: white;
+    border-radius: 5px;
+    width: 400px;
+    height: 708px;
+}
+.auth-first-part-wrapper    {
+    display: flex;
+    justify-content: space-between;
+}
+
+#auth-first-sign-in-btn, #auth-first-register-btn   {
+    background-color: white;
+    border: none;
+    text-align: center;
+    border-bottom: 1px solid black;
+    cursor: pointer;
+}
+
+#auth-first-sign-in-btn:hover, #auth-first-register-btn:hover   {
+    border-bottom: 3px solid black;
+}
+
+#auth-first-sign-in-btn     {
+    width: 155px;
+    height: 52px;
+}
+#auth-first-register-btn    {
+    width: 245px;
+    height: 52px;
+}
+
+.auth-second-part-wrapper, .auth-third-part-wrapper   {
+    width: 336px;
+    margin: 0 auto;
+}
+
+.auth-sign-in-first-input-wrapper, .auth-sign-in-second-input-wrapper  {
+    margin-top: 30px;
+}
+
+.auth-sign-in-third-input-wrapper   {
+    margin-top: 40px;
+}
+
+.auth-sign-in-third-button-wrapper      {
+    margin-top: 15px;
+}
+
+.auth-second-part-wrapper input     {
+    border: none;
+    outline: none;
+    width: 100%;
+    height: 50px;
+    background-color: #f2f4f5;
+}
+
+.auth-second-part-wrapper button    {
+    border: none;
+    width: 100%;
+    height: 50px;
+    background-color: #002f34;
+    text-align: center;
+    color: white;
+    font-size: 16px;
+}
+
+.auth-third-part-title      {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.hider  {
+    display: none;
+}
+
+.create-post-wrapper, .profile-wrapper    {
+    display: flex;
+    padding-top: 100px;
+    width: 100%;
+}
+
+.create-post-title  {
+    margin-top: 10px;
+    font-size: 30px;
+    font-weight: bold;
+    padding: 30px;
+    padding-left: 0;
+}
+
+.create-post-name-wrapper, .create-post-description-wrapper, .create-post-price-wrapper, .create-post-button-wrapper   {
+    background-color: white;
+    padding: 30px;
+}
+
+.create-post-description-wrapper, .create-post-price-wrapper, .create-post-button-wrapper    {
+    margin-top: 20px;
+}
+
+.create-post-name-title {
+    font-size: 20px;
+}
+#create-post-form   {
+    width: 100%;
+}
+
+#create-post-form input     {
+    background-color: #f2f4f5;
+    outline: none;
+    border: none;
+    margin-top: 10px;
+}
+
+#create-post-name-input {
+    height: 73px;
+    width: 639px;
+}
+#create-post-tag-input, #create-post-img-input, #create-post-price-input  {
+    height: 25px;
+    width: 639px;
+}
+.create-post-name, .create-post-tag, .create-post-img   {
+    margin-top: 10px;
+}
+#create-post-description-input  {
+    width: 639px;
+    height: 120px;
+}
+#post-publish-button    {
+    width: 180px;
+    height: 45px;
+    background-color: #002f34;
+    border: none;
+    border-radius: 5px;
+    color: white;
+}
+
+#find-posts-form, #delete-post-form    {
+    display: flex;
+    width: 100%;
+}
+
+#profile-button {
+    color: #002f34;
+    width: 140px;
+    height: 45px;
+    background-color: #fff;
+    border: none;
+    border-radius: 5px;
+}
+
+#change-password-button, #update-user-button  {
+    display: block;
+}
+
+.profile-wrapper    {
+    justify-content: space-around;
+    text-align:start;
+}
+
+.update-post-wrapper    {
+    background-color: white;
+    padding: 30px;
+    margin-top: 20px;
+}
