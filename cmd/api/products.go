@@ -6,10 +6,9 @@ import (
 	"github.com/shynggys9219/greenlight/internal/data"
 	"net/http"
 )
-
 func (app *application) createProductsHandler(w http.ResponseWriter, r *http.Request) {
-	//Declare an anonymous struct to hold the information that we expect to be in the
-	// HTTP request body (note that the field names and types in the struct are a subset
+
+	//Declare an anonymous struct to hold the information that we expect to be in the// HTTP request body (note that the field names and types in the struct are a subset
 	// of the Movie struct that we created earlier). This struct will be our *target
 	// decode destination*.
 	var input struct {
@@ -21,7 +20,7 @@ func (app *application) createProductsHandler(w http.ResponseWriter, r *http.Req
 	}
 
 	// if there is error with decoding, we are sending corresponding message
-	err := app.readJSON(w, r, &input) //non-nil pointer as the target decode destination
+	err = app.readJSON(w, r, &input) //non-nil pointer as the target decode destination
 	if err != nil {
 		app.errorResponse(w, r, http.StatusBadRequest, err.Error())
 	}
