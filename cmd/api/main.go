@@ -89,8 +89,8 @@ func main() {
 	// use your own credentials here as username and password
 	// $env:SMTPUSERNAME="smtp_server_username_here"
 	// $env:SMTPPASSWORD="smtp_server_username_here"
-	flag.StringVar(&cfg.smtp.username, "smtp-username", "505cf6ebc76e1f", "SMTP username")
-	flag.StringVar(&cfg.smtp.password, "smtp-password", "839286b88adcfb", "SMTP password")
+	flag.StringVar(&cfg.smtp.username, "smtp-username", "f735f971551ac7", "SMTP username")
+	flag.StringVar(&cfg.smtp.password, "smtp-password", "d3b97df59a6bb1", "SMTP password")
 	flag.StringVar(&cfg.smtp.sender, "smtp-sender", "Test <no-reply@test.com>", "SMTP sender")
 
 	flag.Parse()
