@@ -20,7 +20,7 @@ const version = "1.0.0"
 
 // Add a db struct field to hold the configuration settings for our database connection
 // pool. For now this only holds the DSN, which we will read in from a command-line flag.
-type config struct {
+type Config struct {
 	port int
 	env  string
 	db   struct {
@@ -50,7 +50,7 @@ type config struct {
 }
 
 type application struct {
-	config config
+	config Config
 	logger *jsonlog.Logger // new customized logger
 	models data.Models     // hold new models in app
 	mailer mailer.Mailer   // use ower mailer from mailer.go
@@ -59,11 +59,11 @@ type application struct {
 }
 
 func main() {
-	var cfg config
+	var cfg Config
 	flag.IntVar(&cfg.port, "port", 4000, "API server port")
 	flag.StringVar(&cfg.env, "env", "development", "Environment (development|staging|production)")
 
-	// Read the DSN value from the db-dsn command-line flag into the config struct. We
+	// Read the DSN value from the db-dsn command-line flag into the Config struct. We
 	// default to using our development DSN if no flag is provided.
 	// in powershell use next command: $env:DSN="postgres://postgres:postgres@localhost:5432/greenlight?sslmode=disable"
 	flag.StringVar(&cfg.db.dsn, "db-dsn", os.Getenv("DSN"), "PostgreSQL DSN")
@@ -74,13 +74,13 @@ func main() {
 	flag.StringVar(&cfg.db.maxIdleTime, "db-max-idle-time", "15m", "PostgreSQL max idle time")
 	// flag.StringVar(&cfg.db.maxLifetime, "db-max-lifetime", "1h", "PostgreSQL max idle time")
 
-	// Create command line flags to read the setting values into the config struct.
+	// Create command line flags to read the setting values into the Config struct.
 	// Notice that we use true as the default for the 'enabled' setting?
 	flag.Float64Var(&cfg.limiter.rps, "limiter-rps", 2, "Rate limiter maximum requests per second")
 	flag.IntVar(&cfg.limiter.burst, "limiter-burst", 4, "Rate limiter maximum burst")
 	flag.BoolVar(&cfg.limiter.enabled, "limiter-enabled", true, "Enable rate limiter")
 
-	// Read the SMTP server configuration settings into the config struct, using the
+	// Read the SMTP server configuration settings into the Config struct, using the
 	// Mailtrap settings as the default values. IMPORTANT: If you're following along,
 	// make sure to replace the default values for smtp-username and smtp-password
 	// with your own Mailtrap credentials.
@@ -98,7 +98,8 @@ func main() {
 	logger := jsonlog.New(os.Stdout, jsonlog.LevelInfo)
 	// logger := log.New(os.Stdout, "", log.Ldate|log.Ltime)
 
-	db, err := openDB(cfg)
+	db, err := OpenDB(cfg)
+
 	if err != nil {
 		logger.PrintFatal(err, nil) // calling PrintFatal function if there is an error with db server connection
 	}
@@ -124,7 +125,7 @@ func main() {
 
 }
 
-func openDB(cfg config) (*sql.DB, error) {
+func OpenDB(cfg Config) (*sql.DB, error) {
 	db, err := sql.Open("postgres", cfg.db.dsn)
 	if err != nil {
 		return nil, err

@@ -8,7 +8,6 @@ import (
 )
 
 func (app *application) createProductsHandler(w http.ResponseWriter, r *http.Request) {
-
 	//Declare an anonymous struct to hold the information that we expect to be in the// HTTP request body (note that the field names and types in the struct are a subset
 	// of the Movie struct that we created earlier). This struct will be our *target
 	// decode destination*.
