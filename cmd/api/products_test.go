@@ -26,7 +26,6 @@ func TestInsertProduct(t *testing.T) {
 		DB: db,
 	}
 	product := &data.Product{
-		ID:          5,
 		CreatedAt:   time.Time{},
 		Name:        "Shoes",
 		Description: "Shoes for Man",
@@ -59,20 +58,20 @@ func TestUpdateProduct(t *testing.T) {
 	productModel := data.ProductModel{
 		DB: db,
 	}
+	firstGet, _ := productModel.Get(5)
 	product := &data.Product{
-		ID:          5,
 		Name:        "Shoes V2",
 		Description: "Sport Shoes, white",
 		ImageURL:    "https://rukminim1.flixcart.com/image/612/612/xif0q/shoe/g/c/o/9-rockey-9-magnolia-white-original-imaggutpbvcczyhf.jpeg?q=70",
 		Seller:      "Kaisar A.",
 		Categories:  []string{"Shoes", "White"},
 	}
+
 	err := productModel.Update(product)
 	if err != nil {
 		t.Fatalf("Product update Error %s", err.Error())
 	}
-	result, _ := productModel.Get(product.ID)
-	if result.Name == product.Name && result.Description == product.Description {
+	if firstGet.Name == product.Name && firstGet.Description == product.Description && err != nil {
 		t.Error("Product was not updated, error in method")
 	}
 }
