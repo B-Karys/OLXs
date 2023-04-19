@@ -3,6 +3,7 @@ package main
 import (
 	"errors"
 	"github.com/shynggys9219/greenlight/internal/data"
+	"github.com/shynggys9219/greenlight/internal/validator"
 	"testing"
 	"time"
 )
@@ -87,4 +88,33 @@ func TestDeleteUser(t *testing.T) {
 	if !errors.Is(err, data.ErrRecordNotFound) {
 		t.Error("User was not deleted, error in method")
 	}
+}
+func TestValidateEmail(t *testing.T) {
+	email := "kelphy2k@gmail.com"
+	v := validator.New()
+	if data.ValidateEmail(v, email); !v.Valid() {
+		t.Error("Email should be provided and real email address")
+	}
+}
+
+func TestValidateUser(t *testing.T) {
+	user := &data.User{
+		CreatedAt: time.Time{},
+		Name:      "KaisarValid",
+		Surname:   "AnsarovValid",
+		Phone:     "+7777777776",
+		Email:     "kaisar.a1234@example.com",
+		Password:  data.Password{},
+		Activated: false,
+		Version:   1,
+	}
+	pass := user.Password.Set("KaisarA1234")
+	if pass != nil {
+		return
+	}
+	v := validator.New()
+	if data.ValidateUser(v, user); !v.Valid() {
+		t.Error("Validation failed because of the email, password or username")
+	}
+
 }

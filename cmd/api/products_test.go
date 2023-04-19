@@ -35,7 +35,7 @@ func TestInsertProduct(t *testing.T) {
 	}
 	err := data.ProductModel.Insert(productModel, product)
 	if err != nil {
-		t.Fatalf("Insert product Error %s", err.Error())
+		t.Fatalf("Insert product Error: %s", err.Error())
 	}
 }
 

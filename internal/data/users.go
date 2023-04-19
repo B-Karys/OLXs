@@ -42,7 +42,7 @@ type UserModel struct {
 // so that we're able to distinguish between a plaintext Password not being present in
 // the struct at all, versus a plaintext Password which is the empty string "".
 type Password struct {
-	plaintext *string
+	Plaintext *string
 	hash      []byte
 }
 
@@ -53,7 +53,7 @@ func (p *Password) Set(plaintextPassword string) error {
 	if err != nil {
 		return err
 	}
-	p.plaintext = &plaintextPassword
+	p.Plaintext = &plaintextPassword
 	p.hash = hash
 	return nil
 }
@@ -90,8 +90,8 @@ func ValidateUser(v *validator.Validator, user *User) {
 	ValidateEmail(v, user.Email)
 	// If the plaintext Password is not nil, call the standalone
 	// ValidatePasswordPlaintext() helper.
-	if user.Password.plaintext != nil {
-		ValidatePasswordPlaintext(v, *user.Password.plaintext)
+	if user.Password.Plaintext != nil {
+		ValidatePasswordPlaintext(v, *user.Password.Plaintext)
 	}
 	// If the Password hash is ever nil, this will be due to a logic error in our
 	// codebase (probably because we forgot to set a Password for the user). It's a
